@@ -13,8 +13,8 @@ This project screens resumes against a job description and returns a match score
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/gajendrasinghdawar/resume-screening-system.git
-cd resume-screening-system
+git clone git@github.com:GajendrasinghDawar/resume-screening-system-MXPERTZ.git
+cd resume-screening-system-MXPERTZ
 ```
 
 2. Create a local `.env` file from `.env.example` and set `AZURE_API_KEY`. If your deployments or endpoint differ, update these constants in `app/ai_client.py`:
