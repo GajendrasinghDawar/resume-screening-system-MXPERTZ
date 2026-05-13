@@ -5,7 +5,7 @@ from openai import AzureOpenAI
 
 load_dotenv()
 
-EMBEDDING_MODEL = "text-embedding-3-small"
+EMBEDDING_MODEL = "text-embedding-3-large"
 CHAT_MODEL = "gpt-5.1-codex-mini"
 AZURE_ENDPOINT = "https://lasttry-openai-azure.cognitiveservices.azure.com"
 
