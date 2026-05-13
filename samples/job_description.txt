@@ -1,0 +1,21 @@
+Job Title: AI/ML Developer
+
+We are looking for an AI/ML Developer with 2-6 years of experience to join our team.
+
+Responsibilities:
+- Build and deploy machine learning and deep learning models in production.
+- Work with NLP techniques, transformers, and large language models (LLMs).
+- Develop REST APIs using FastAPI to serve ML models.
+- Implement retrieval augmented generation (RAG) pipelines using embeddings and vector databases.
+- Collaborate with data engineers on ETL pipelines.
+
+Required Skills:
+- Strong Python programming
+- Machine Learning, Deep Learning
+- NLP, Transformers, LLMs
+- PyTorch or TensorFlow
+- scikit-learn, pandas, numpy
+- FastAPI, REST APIs
+- Docker, AWS
+- SQL, PostgreSQL
+- Git
