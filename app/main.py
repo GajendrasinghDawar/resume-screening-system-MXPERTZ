@@ -49,6 +49,7 @@ class ScreenResponse(BaseModel):
     results: list[ResumeMatch]
 
 
+# type alias to fix swagger ui multiple file upload bug.
 UploadFileBinary = Annotated[
     FastAPIUploadFile,
     WithJsonSchema({"type": "string", "format": "binary"}),
@@ -103,7 +104,7 @@ async def screen_resumes(
             experience_years=resume_profile.experience_years,
         )
 
-        results.append(ResumeMatch(**match.__dict__))
+        results.append(ResumeMatch(**match))
 
     results.sort(key=lambda r: r.score, reverse=True)
 
