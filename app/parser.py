@@ -1,13 +1,10 @@
-from __future__ import annotations
-
 import io
-import os
 from pathlib import Path
 
 from pydantic import BaseModel, Field
 from pypdf import PdfReader
 
-from .ai_client import client
+from .ai_client import CHAT_MODEL, client
 
 
 class LLMProfile(BaseModel):
@@ -30,10 +27,8 @@ def parse_profile_with_llm(text: str, kind: str) -> LLMProfile:
     if not text.strip():
         return LLMProfile()
 
-    model = os.getenv("AZURE_CHAT_DEPLOYMENT", "gpt-5.1-codex-mini")
-
     response = client.responses.parse(
-        model=model,
+        model=CHAT_MODEL,
         input=[
             {
                 "role": "system",

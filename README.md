@@ -14,10 +14,10 @@ uv sync
 2. Run the API:
 
 ```bash
-uv run uvicorn main:app --reload
+uv run uvicorn app.main:app --reload
 ```
 
-4. Open the docs:
+3. Open the docs:
 
 ```
 http://127.0.0.1:8000/docs
@@ -25,7 +25,7 @@ http://127.0.0.1:8000/docs
 
 ## Environment
 
-Set these variables for Azure OpenAI access:
+Set these variables for Azure OpenAI access (reviewers should provide their own key):
 
 - AZURE_API_KEY
 - AZURE_ENDPOINT (optional if using the default in ai_client.py)
@@ -38,13 +38,12 @@ Endpoint: `POST /screening`
 
 ### Request body (multipart form)
 
-Use a multipart form with a text field and one or more PDF files:
+Use a multipart form with a text field and one PDF file:
 
 ```bash
 curl -X POST "http://127.0.0.1:8000/screening" \
   -F "job_description=We need a Python developer with FastAPI, SQL, and AWS." \
-  -F "resumes=@/path/to/resume_1.pdf" \
-  -F "resumes=@/path/to/resume_2.pdf"
+  -F "resumes=@/path/to/resume.pdf"
 ```
 
 ### Response (example)
@@ -52,16 +51,15 @@ curl -X POST "http://127.0.0.1:8000/screening" \
 ```json
 {
   "job_description_preview": "We need a Python developer with FastAPI, SQL, and AWS.",
-  "total_resumes": 2,
-  "matcher_mode": "embedding",
+  "total_resumes": 1,
   "results": [
     {
-      "filename": "resume_1.pdf",
+      "filename": "resume.pdf",
       "score": 78.0,
       "matched_skills": ["python", "fastapi", "aws"],
       "missing_skills": ["sql"],
       "experience_years": 3,
-      "explanation": "Similarity score is 78.0/100 based on JD vs resume text. Matched skills: python, fastapi, aws. Missing skills: sql."
+      "explanation": "Embedding similarity 78.0/100 between job description and resume. Matched skills: python, fastapi, aws. Missing skills: sql."
     }
   ]
 }
@@ -87,11 +85,11 @@ curl -X POST "http://127.0.0.1:8000/screening" \
 
 ## Code walkthrough
 
-See [docs/implementation.md](docs/implementation.md) for a short explanation of how the
-modules work together.
+The code is organized into `app/main.py`, `app/parser.py`, and `app/matcher.py` with
+short comments explaining each step.
 
 ## Timeline
 
-- 1-2 hours: basic API + schema + TF-IDF matching
-- 1 hour: skill extraction and explanation
+- 1-2 hours: basic API + PDF parsing + LLM extraction
+- 1 hour: embeddings + scoring logic
 - 30 min: README and sample request

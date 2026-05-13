@@ -1,7 +1,6 @@
-import os
 import re
 
-from .ai_client import client
+from .ai_client import EMBEDDING_MODEL, client
 
 
 def _normalize(skills: list[str]) -> list[str]:
@@ -15,8 +14,7 @@ def _normalize(skills: list[str]) -> list[str]:
 
 def _embed(text: str) -> list[float]:
     # Generate a semantic embedding vector using Azure OpenAI.
-    model = os.getenv("AZURE_EMBEDDING_DEPLOYMENT", "text-embedding-3-small")
-    response = client.embeddings.create(model=model, input=text)
+    response = client.embeddings.create(model=EMBEDDING_MODEL, input=text)
     return response.data[0].embedding
 
 

@@ -5,10 +5,9 @@ from openai import AzureOpenAI
 
 load_dotenv()
 
-AZURE_ENDPOINT = os.getenv(
-    "AZURE_ENDPOINT",
-    "https://lasttry-openai-azure.cognitiveservices.azure.com",
-)
+EMBEDDING_MODEL = "text-embedding-3-small"
+CHAT_MODEL = "gpt-5.1-codex-mini"
+AZURE_ENDPOINT = "https://lasttry-openai-azure.cognitiveservices.azure.com"
 
 client = AzureOpenAI(
     api_key=os.getenv("AZURE_API_KEY"),

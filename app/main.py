@@ -10,8 +10,6 @@ Single endpoint:
                  and a short explanation.
 """
 
-from __future__ import annotations
-
 from typing import Annotated
 
 from dotenv import load_dotenv
@@ -19,10 +17,9 @@ from fastapi import FastAPI, File, Form, HTTPException
 from fastapi import UploadFile as FastAPIUploadFile
 from pydantic import BaseModel, WithJsonSchema
 
-from app.utils import store_text, store_upload
-
 from .matcher import score_resume
 from .parser import extract_text, parse_profile_with_llm
+from .utils import store_text, store_upload
 
 load_dotenv()
 
@@ -82,6 +79,7 @@ async def screen_resumes(
         if not content:
             continue
 
+        # storing resumes for future reference.
         stored_name = store_upload(upload.filename, content)
 
         try:
@@ -91,6 +89,7 @@ async def screen_resumes(
         if not text.strip():
             continue
 
+        # storing extracted resume's text for future reference.
         store_text(stored_name, text)
 
         resume_profile = parse_profile_with_llm(text, kind="resume")
