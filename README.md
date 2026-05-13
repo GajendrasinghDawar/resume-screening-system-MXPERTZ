@@ -7,6 +7,7 @@ This project screens resumes against a job description and returns a match score
 - Python 3.14
 - uv (Python package manager)
   https://astral.sh/uv
+- Azure OpenAI API key and endpoint (for embeddings and structured parsing): https://ai.azure.com/
 
 ## How to set up and run the app
 
