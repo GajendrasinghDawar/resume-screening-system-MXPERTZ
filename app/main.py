@@ -12,35 +12,26 @@ Single endpoint:
 
 from __future__ import annotations
 
-from pathlib import Path
 from typing import Annotated
-from uuid import uuid4
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, Form, HTTPException
 from fastapi import UploadFile as FastAPIUploadFile
 from pydantic import BaseModel, WithJsonSchema
 
+from app.utils import store_text, store_upload
+
 from .matcher import score_resume
 from .parser import extract_text, parse_profile_with_llm
 
 load_dotenv()
 
-RESUME_DIR = Path("storage/resumes")
-TEXT_DIR = Path("storage/text")
-RESUME_DIR.mkdir(parents=True, exist_ok=True)
-TEXT_DIR.mkdir(parents=True, exist_ok=True)
 
 app = FastAPI(
     title="Smart Resume Screening System",
     description="AI-powered resume screening (Azure OpenAI embeddings).",
     version="1.0.0",
 )
-
-UploadFileBinary = Annotated[
-    FastAPIUploadFile,
-    WithJsonSchema({"type": "string", "format": "binary"}),
-]
 
 
 class ResumeMatch(BaseModel):
@@ -58,24 +49,10 @@ class ScreenResponse(BaseModel):
     results: list[ResumeMatch]
 
 
-def _store_upload(filename: str | None, content: bytes) -> str:
-    safe_name = (filename or "resume").replace(" ", "_")
-    stored_name = f"{Path(safe_name).stem}_{uuid4().hex}{Path(safe_name).suffix}"
-    (RESUME_DIR / stored_name).write_bytes(content)
-    return stored_name
-
-
-def _store_text(filename: str, text: str) -> None:
-    (TEXT_DIR / f"{Path(filename).stem}.txt").write_text(text, encoding="utf-8")
-
-
-@app.get("/")
-def root() -> dict:
-    return {
-        "service": "Smart Resume Screening System",
-        "endpoint": "POST /screening",
-        "docs": "/docs",
-    }
+UploadFileBinary = Annotated[
+    FastAPIUploadFile,
+    WithJsonSchema({"type": "string", "format": "binary"}),
+]
 
 
 @app.post("/screening", response_model=ScreenResponse)
@@ -104,7 +81,7 @@ async def screen_resumes(
         if not content:
             continue
 
-        stored_name = _store_upload(upload.filename, content)
+        stored_name = store_upload(upload.filename, content)
 
         try:
             text = extract_text(upload.filename or "resume", content)
@@ -113,7 +90,7 @@ async def screen_resumes(
         if not text.strip():
             continue
 
-        _store_text(stored_name, text)
+        store_text(stored_name, text)
 
         resume_profile = parse_profile_with_llm(text, kind="resume")
 
