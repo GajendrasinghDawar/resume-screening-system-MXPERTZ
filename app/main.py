@@ -1,15 +1,3 @@
-"""
-Smart Resume Screening System - FastAPI app.
-
-Single endpoint:
-    POST /screening
-        Form fields:
-            job_description: str   (required)
-            resumes:        files  (one or more PDF only)
-        Returns: ranked list of matches with score, matched/missing skills,
-                 and a short explanation.
-"""
-
 from typing import Annotated
 
 from dotenv import load_dotenv
@@ -26,8 +14,7 @@ load_dotenv()
 
 app = FastAPI(
     title="Smart Resume Screening System",
-    description="AI-powered resume screening (Azure OpenAI embeddings).",
-    version="1.0.0",
+    description="This project screens resumes against a job description, returns a match score, matched/missing skills, and a short explanation as per the machine test requirements.",
 )
 
 
