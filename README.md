@@ -60,12 +60,10 @@ Screenshots for the docs flow are stored in the `assets/` folder.
 The code is organized into `app/`.
 
 ```
-Client
-└── app/main.py     -> FastAPI endpoint, validation, file handling
-    ├── app/parser.py  -> PDF text extraction + LLM structured parsing
-    ├── app/matcher.py -> Embeddings + cosine similarity, returns matched/missing skills
-    └── app/utils.py   -> helper functions
-        └── Response (ranked results)
+├── app/main.py     -> FastAPI endpoint, validation, file handling
+├── app/parser.py   -> PDF text extraction + LLM structured parsing
+├── app/matcher.py  -> Embeddings + cosine similarity, returns matched/missing skills
+└── app/utils.py    -> Helper functions
 ```
 
 ## Approach explanation
